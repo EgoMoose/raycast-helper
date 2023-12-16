@@ -2,14 +2,17 @@
 	"name": "raycast-helper",
 	"tree": {
 		"$className": "DataModel",
-		"ServerScriptService": {
-			"$className": "ServerScriptService",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
 			"Packages": {
 				"$className": "Folder",
 				"RaycastHelper": {
 					"$path": "default.project.json"
 				}
-			},
+			}
+		},
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
 			"ServerEntry": {
 				"$path": "test/serverEntry.server.lua"
 			}
