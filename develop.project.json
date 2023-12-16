@@ -1,0 +1,25 @@
+{
+	"name": "raycast-helper",
+	"tree": {
+		"$className": "DataModel",
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"Packages": {
+				"$className": "Folder",
+				"RaycastHelper": {
+					"$path": "default.project.json"
+				}
+			},
+			"ServerEntry": {
+				"$path": "test/serverEntry.server.lua"
+			}
+		},
+		"StarterPlayer": {
+			"StarterPlayerScripts": {
+				"ClientEntry": {
+					"$path": "test/clientEntry.client.lua"
+				}
+			}
+		}
+	}
+}
