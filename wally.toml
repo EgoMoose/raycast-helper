@@ -1,7 +1,10 @@
 [package]
 name = "egomoose/raycast-helper"
+description = "https://github.com/EgoMoose/raycast-helper"
 version = "0.1.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
+exclude = ["test", "assets"]
+private = true
 
 [dependencies]
