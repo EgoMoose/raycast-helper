@@ -41,18 +41,9 @@ local function convertToInclusionFilter(rayParams: RaycastParams)
 	rayParams.FilterType = Enum.RaycastFilterType.Exclude
 	rayParams.FilterDescendantsInstances = {}
 
-	local function isDescendantOfIncluded(descendant: Instance)
+	local function isRelatedToIncluded(instance: Instance, relation: (Instance, Instance) -> boolean)
 		for _, included in inclusionInstances do
-			if descendant == included or descendant:IsDescendantOf(included) then
-				return true
-			end
-		end
-		return false
-	end
-
-	local function isAncestorOfIncluded(ancestor: Instance)
-		for _, included in inclusionInstances do
-			if ancestor == included or included:IsDescendantOf(ancestor) then
+			if instance == included or relation(instance, included) then
 				return true
 			end
 		end
@@ -61,7 +52,7 @@ local function convertToInclusionFilter(rayParams: RaycastParams)
 
 	local function findLargestExcludedAncestor(instance: Instance)
 		local ancestor = instance
-		while ancestor ~= game and ancestor.Parent and not isAncestorOfIncluded(ancestor.Parent) do
+		while ancestor ~= game and ancestor.Parent and not isRelatedToIncluded(ancestor.Parent, workspace.IsAncestorOf) do
 			ancestor = ancestor.Parent
 		end
 		return ancestor
@@ -69,7 +60,7 @@ local function convertToInclusionFilter(rayParams: RaycastParams)
 
 	return function(rayResult: RaycastResult): Instance?
 		local hit = rayResult.Instance
-		if not isDescendantOfIncluded(hit) then
+		if not isRelatedToIncluded(hit, workspace.IsDescendantOf) then
 			return findLargestExcludedAncestor(hit)
 		end
 		return nil
