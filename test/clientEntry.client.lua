@@ -4,6 +4,8 @@ local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local ringTemplate = ReplicatedStorage:WaitForChild("Ring") :: BasePart
+
 local RaycastHelper = require(ReplicatedStorage.Packages.RaycastHelper)
 
 local function getMouseRay(): Ray
@@ -54,20 +56,49 @@ local function onClickInclude()
 	return result
 end
 
+local function onClickShapecast()
+	local mouseRay = getMouseRay()
+	local originCFrame = CFrame.lookAt(mouseRay.Origin, mouseRay.Origin + mouseRay.Direction)
+	local result = RaycastHelper.castShape({
+		part = ringTemplate,
+		cframe = originCFrame,
+		direction = mouseRay.Direction * 999,
+
+		filterType = Enum.RaycastFilterType.Include,
+		instances = { workspace.Model },
+
+		callback = mustBeFullyVisible,
+	})
+
+	if result then
+		local ring = ringTemplate:Clone()
+		ring.CFrame = originCFrame + mouseRay.Direction * result.Distance
+		ring.Parent = workspace
+	end
+
+	return result
+end
+
 local function callAndPrint(callback: (...any) -> ...any, ...)
 	local funcName = debug.info(callback, "n")
 	local result = callback(...)
 	print(funcName, result and (result.Instance :: BasePart).BrickColor.Name)
 end
 
+local click3Count = 0
 UserInputService.InputBegan:Connect(function(input, shouldSink)
 	if shouldSink then
 		return
 	end
 
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		callAndPrint(onClickExclude)
+		callAndPrint(onClickShapecast)
 	elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
-		callAndPrint(onClickInclude)
+		click3Count = click3Count + 1
+		if click3Count % 2 == 0 then
+			callAndPrint(onClickInclude)
+		else
+			callAndPrint(onClickExclude)
+		end
 	end
 end)

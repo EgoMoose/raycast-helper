@@ -27,6 +27,12 @@ export type SpherecastOptions = GeneralOptions & {
 	direction: Vector3,
 }
 
+export type ShapecastOptions = GeneralOptions & {
+	part: BasePart,
+	cframe: CFrame?,
+	direction: Vector3,
+}
+
 local module = {}
 
 -- Private
@@ -145,6 +151,36 @@ function module.castSphere(options: SpherecastOptions)
 		-- selene: allow (incorrect_standard_library_use)
 		return workspace.Spherecast(worldRoot, options.origin, options.radius, options.direction, rayParams)
 	end)
+end
+
+function module.castShape(options: ShapecastOptions)
+	local clonedPart: BasePart
+	if options.cframe then
+		clonedPart = options.part:Clone()
+		clonedPart.CFrame = options.cframe
+
+		options = table.clone(options) :: ShapecastOptions
+		options.part = clonedPart
+		options.cframe = nil
+	end
+
+	local result
+	local success, err = pcall(function()
+		result = cast(options, function(worldRoot, rayParams)
+			-- selene: allow (incorrect_standard_library_use)
+			return workspace.Shapecast(worldRoot, options.part, options.direction, rayParams)
+		end)
+	end)
+
+	if not success then
+		error(err)
+	end
+
+	if clonedPart then
+		clonedPart:Destroy()
+	end
+
+	return result
 end
 
 return module
