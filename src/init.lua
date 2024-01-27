@@ -130,24 +130,38 @@ local function cast(options: GeneralOptions, castMethod: (WorldRoot, RaycastPara
 	return result
 end
 
+local function catchError(level: number, finally: (() -> ())?, callback: (...any) -> ...any, ...): RaycastResult?
+	local success, result = pcall(callback, ...)
+
+	if finally then
+		finally()
+	end
+
+	if not success then
+		error(result, level + 1)
+	end
+
+	return result
+end
+
 -- Public
 
 function module.castRay(options: RaycastOptions)
-	return cast(options, function(worldRoot, rayParams)
+	return catchError(2, nil, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
 		return workspace.Raycast(worldRoot, options.origin, options.direction, rayParams)
 	end)
 end
 
 function module.castBlock(options: BlockcastOptions)
-	return cast(options, function(worldRoot, rayParams)
+	return catchError(2, nil, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
 		return workspace.Blockcast(worldRoot, options.origin, options.size, options.direction, rayParams)
 	end)
 end
 
 function module.castSphere(options: SpherecastOptions)
-	return cast(options, function(worldRoot, rayParams)
+	return catchError(2, nil, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
 		return workspace.Spherecast(worldRoot, options.origin, options.radius, options.direction, rayParams)
 	end)
@@ -164,23 +178,16 @@ function module.castShape(options: ShapecastOptions)
 		options.cframe = nil
 	end
 
-	local result
-	local success, err = pcall(function()
-		result = cast(options, function(worldRoot, rayParams)
-			-- selene: allow (incorrect_standard_library_use)
-			return workspace.Shapecast(worldRoot, options.part, options.direction, rayParams)
-		end)
+	local function cleanup()
+		if clonedPart then
+			clonedPart:Destroy()
+		end
+	end
+
+	return catchError(2, cleanup, cast, options, function(worldRoot, rayParams)
+		-- selene: allow (incorrect_standard_library_use)
+		return workspace.Shapecast(worldRoot, options.part, options.direction, rayParams)
 	end)
-
-	if not success then
-		error(err)
-	end
-
-	if clonedPart then
-		clonedPart:Destroy()
-	end
-
-	return result
 end
 
 return module
