@@ -35,7 +35,7 @@ local function onClickExclude()
 		filterType = Enum.RaycastFilterType.Exclude,
 		instances = characters,
 
-		callback = mustBeFullyVisible,
+		filterCallback = mustBeFullyVisible,
 	})
 
 	return result
@@ -50,7 +50,7 @@ local function onClickInclude()
 		filterType = Enum.RaycastFilterType.Include,
 		instances = { workspace.Model },
 
-		callback = mustBeFullyVisible,
+		filterCallback = mustBeFullyVisible,
 	})
 
 	return result
@@ -67,7 +67,7 @@ local function onClickShapecast()
 		filterType = Enum.RaycastFilterType.Include,
 		instances = { workspace.Model },
 
-		callback = mustBeFullyVisible,
+		filterCallback = mustBeFullyVisible,
 	})
 
 	if result then

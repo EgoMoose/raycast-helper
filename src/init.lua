@@ -7,7 +7,7 @@ type GeneralOptions = {
 	ignoreWater: boolean?,
 	collisionGroup: string?,
 	respectCanCollide: boolean?,
-	callback: ((RaycastResult, () -> ()) -> boolean)?,
+	filterCallback: ((RaycastResult, () -> ()) -> boolean)?,
 }
 
 export type RaycastOptions = GeneralOptions & {
@@ -74,7 +74,7 @@ local function convertToInclusionFilter(rayParams: RaycastParams)
 end
 
 local function cast(options: GeneralOptions, castMethod: (WorldRoot, RaycastParams) -> RaycastResult?): RaycastResult?
-	local callback = options.callback
+	local filterCallback = options.filterCallback
 	local worldRoot = options.worldRoot or workspace
 
 	local rayParams = RaycastParams.new()
@@ -84,7 +84,7 @@ local function cast(options: GeneralOptions, castMethod: (WorldRoot, RaycastPara
 	rayParams.CollisionGroup = options.collisionGroup or "Default"
 	rayParams.RespectCanCollide = options.respectCanCollide or false
 
-	if not callback then
+	if not filterCallback then
 		return castMethod(worldRoot, rayParams)
 	end
 
@@ -111,15 +111,15 @@ local function cast(options: GeneralOptions, castMethod: (WorldRoot, RaycastPara
 			filterInstance = inclusionFilter(rayResult)
 		end
 
-		local callbackResult = false
+		local filterCallbackResult = false
 		if not filterInstance then
-			callbackResult = callback(rayResult, cancel)
+			filterCallbackResult = filterCallback(rayResult, cancel)
 			filterInstance = rayResult.Instance
 		end
 
 		if isCancelled then
 			break
-		elseif callbackResult then
+		elseif filterCallbackResult then
 			result = rayResult
 			break
 		else
