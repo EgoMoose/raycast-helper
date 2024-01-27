@@ -138,7 +138,7 @@ local function catchError(level: number, finally: (() -> ())?, callback: (...any
 	end
 
 	if not success then
-		error(result, level + 1)
+		error("\n" .. result, level + 1)
 	end
 
 	return result
