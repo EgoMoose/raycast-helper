@@ -1,5 +1,5 @@
 {
-	"name": "RaycsstHelper",
+	"name": "RaycastHelper",
 	"tree": {
 		"$className": "ModuleScript",
 		"$properties": {
