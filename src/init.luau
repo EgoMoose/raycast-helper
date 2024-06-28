@@ -7,6 +7,7 @@ type GeneralOptions = {
 	ignoreWater: boolean?,
 	collisionGroup: string?,
 	respectCanCollide: boolean?,
+	bruteForceAllSlow: boolean?,
 	filterCallback: ((RaycastResult, () -> ()) -> boolean)?,
 }
 
@@ -85,6 +86,7 @@ local function cast(options: GeneralOptions, castMethod: (WorldRoot, RaycastPara
 	rayParams.IgnoreWater = options.ignoreWater or false
 	rayParams.CollisionGroup = options.collisionGroup or "Default"
 	rayParams.RespectCanCollide = options.respectCanCollide or false
+	rayParams.BruteForceAllSlow = options.bruteForceAllSlow or false
 
 	if not filterCallback then
 		return castMethod(worldRoot, rayParams)
