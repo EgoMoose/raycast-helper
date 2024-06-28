@@ -14,13 +14,13 @@
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
 			"ServerEntry": {
-				"$path": "test/serverEntry.server.lua"
+				"$path": "test/serverEntry.server.luau"
 			}
 		},
 		"StarterPlayer": {
 			"StarterPlayerScripts": {
 				"ClientEntry": {
-					"$path": "test/clientEntry.client.lua"
+					"$path": "test/clientEntry.client.luau"
 				}
 			}
 		}

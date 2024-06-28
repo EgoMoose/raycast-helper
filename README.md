@@ -11,7 +11,7 @@ Get it here:
 
 Every cast function in the module allows for an optional "callback" argument. This function can be used to write custom filters for a specific cast in addition to the built in functionality from `Enum.RaycastFilterType`.
 
-```Lua
+```Luau
 local CollectionService = game:GetService("CollectionService")
 
 local function exampleFilter(result: RaycastResult, cancel: () -> ())
@@ -35,7 +35,7 @@ end
 
 In this example a ray is casted and only parts that have `Transparency == 0` are considered as valid candidates for the ray to hit.
 
-```Lua
+```Luau
 local function mustBeFullyVisible(result: RaycastResult)
 	local hit = result.Instance :: BasePart
 	return hit.Transparency == 0
@@ -55,7 +55,7 @@ local result = RaycastHelper.castRay({
 
 ## API
 
-```Lua
+```Luau
 type GeneralOptions = {
 	worldRoot: WorldRoot?,
 	instances: { Instance }?,

@@ -11,5 +11,13 @@
 	},
 
 	"luau-lsp.sourcemap.rojoProjectFile": "develop.project.json",
-	"stylua.targetReleaseVersion": "latest"
+	"stylua.targetReleaseVersion": "latest",
+	"cSpell.words": [
+		"Blockcast",
+		"cframe",
+		"pcall",
+		"Raycast",
+		"Shapecast",
+		"Spherecast"
+	]
 }

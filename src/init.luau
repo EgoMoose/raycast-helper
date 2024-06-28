@@ -33,6 +33,8 @@ export type ShapecastOptions = GeneralOptions & {
 	direction: Vector3,
 }
 
+local WORLD_ROOT = workspace :: WorldRoot
+
 local module = {}
 
 -- Private
@@ -149,21 +151,21 @@ end
 function module.castRay(options: RaycastOptions)
 	return catchError(2, nil, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
-		return workspace.Raycast(worldRoot, options.origin, options.direction, rayParams)
+		return WORLD_ROOT.Raycast(worldRoot, options.origin, options.direction, rayParams)
 	end)
 end
 
 function module.castBlock(options: BlockcastOptions)
 	return catchError(2, nil, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
-		return workspace.Blockcast(worldRoot, options.origin, options.size, options.direction, rayParams)
+		return WORLD_ROOT.Blockcast(worldRoot, options.origin, options.size, options.direction, rayParams)
 	end)
 end
 
 function module.castSphere(options: SpherecastOptions)
 	return catchError(2, nil, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
-		return workspace.Spherecast(worldRoot, options.origin, options.radius, options.direction, rayParams)
+		return WORLD_ROOT.Spherecast(worldRoot, options.origin, options.radius, options.direction, rayParams)
 	end)
 end
 
@@ -186,7 +188,7 @@ function module.castShape(options: ShapecastOptions)
 
 	return catchError(2, cleanup, cast, options, function(worldRoot, rayParams)
 		-- selene: allow (incorrect_standard_library_use)
-		return workspace.Shapecast(worldRoot, options.part, options.direction, rayParams)
+		return WORLD_ROOT.Shapecast(worldRoot, options.part, options.direction, rayParams)
 	end)
 end
 
