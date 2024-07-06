@@ -9,7 +9,7 @@ Get it here:
 
 ## Raycast callbacks
 
-Every cast function in the module allows for an optional "callback" argument. This function can be used to write custom filters for a specific cast in addition to the built in functionality from `Enum.RaycastFilterType`.
+Every cast function in the module allows for an optional "filter" argument. This function can be used to write custom filters for a specific cast in addition to the built in functionality from `Enum.RaycastFilterType`.
 
 ```Luau
 local CollectionService = game:GetService("CollectionService")
@@ -19,9 +19,7 @@ local function exampleFilter(result: RaycastResult, cancel: () -> ())
 
 	if CollectionService:HasTag(hit, "castCancel") then
 		-- at any point we can cancel the cast attempt which leaves the final result as nil
-		-- you don't explicitly need to return, but it exits the function early which may avoid
-		-- any extra calls / operations
-		return cancel()
+		cancel()
 	end
 
 	-- otherwise, return a boolean
@@ -42,55 +40,64 @@ local function mustBeFullyVisible(result: RaycastResult)
 end
 
 local mouseRay = getMouseRay()
-local result = RaycastHelper.castRay({
+local result = RaycastHelper.raycast({
 	origin = mouseRay.Origin,
 	direction = mouseRay.Direction * 999,
 
-	filterType = Enum.RaycastFilterType.Exclude,
-	instances = {},
+	rayParams = RaycastHelper.rayParams({
+		filterType = Enum.RaycastFilterType.Include,
+		instances = {},
+	})
 
-	filterCallback = mustBeFullyVisible,
+	filter = mustBeFullyVisible,
 })
 ```
 
 ## API
 
 ```Luau
-type GeneralOptions = {
+type GeneralCastOptions = {
 	worldRoot: WorldRoot?,
-	instances: { Instance }?,
-	filterType: Enum.RaycastFilterType?,
-	ignoreWater: boolean?,
-	collisionGroup: string?,
-	respectCanCollide: boolean?,
-	filterCallback: ((RaycastResult, () -> ()) -> boolean)?,
+	rayParams: RaycastParams?,
+	filter: ((RaycastResult, () -> ()) -> boolean)?,
 }
 
-type RaycastOptions = GeneralOptions & {
+type RaycastOptions = GeneralCastOptions & {
 	origin: Vector3,
 	direction: Vector3,
 }
 
-type BlockcastOptions = GeneralOptions & {
-	origin: CFrame,
+type BlockcastOptions = GeneralCastOptions & {
+	cframe: CFrame,
 	size: Vector3,
 	direction: Vector3,
 }
 
-type SpherecastOptions = GeneralOptions & {
-	origin: Vector3,
+type SpherecastOptions = GeneralCastOptions & {
+	position: Vector3,
 	radius: number,
 	direction: Vector3,
 }
 
-type ShapecastOptions = GeneralOptions & {
+type ShapecastOptions = GeneralCastOptions & {
 	part: BasePart,
 	cframe: CFrame?,
 	direction: Vector3,
 }
 
-function module.castRay(options: RaycastOptions): RaycastResult?
-function module.castBlock(options: BlockcastOptions): RaycastResult?
-function module.castSphere(options: SpherecastOptions): RaycastResult?
-function module.castShape(options: ShapecastOptions): RaycastResult?
+function module.raycast(options: RaycastOptions): RaycastResult?
+function module.blockcast(options: BlockcastOptions): RaycastResult?
+function module.spherecast(options: SpherecastOptions): RaycastResult?
+function module.shapecast(options: ShapecastOptions): RaycastResult?
+
+type RaycastParamOptions = {
+	instances: { Instance }?,
+	filterType: Enum.RaycastFilterType?,
+	ignoreWater: boolean?,
+	collisionGroup: string?,
+	respectCanCollide: boolean?,
+	bruteForceAllSlow: boolean?,
+}
+
+function module.rayParams(options: RaycastParamOptions)
 ```
