@@ -18,7 +18,7 @@ local function exampleFilter(result: RaycastResult, cancel: () -> ())
 	local hit = result.Instance :: BasePart
 
 	if CollectionService:HasTag(hit, "castCancel") then
-		-- at any point we can cancel the cast attempt which leaves the final result as nil
+		-- at any point we can cancel the cast attempt which closes the thread and leaves the final result as nil
 		cancel()
 	end
 
@@ -99,5 +99,5 @@ type RaycastParamOptions = {
 	bruteForceAllSlow: boolean?,
 }
 
-function module.rayParams(options: RaycastParamOptions)
+function module.params(options: RaycastParamOptions): RaycastParams
 ```
