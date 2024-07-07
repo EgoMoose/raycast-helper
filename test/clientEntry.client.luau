@@ -41,7 +41,7 @@ UserInputService.InputBegan:Connect(function(input, shouldSink)
 	end
 
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		local rayParams = RaycastHelper.rayParams({
+		local rayParams = RaycastHelper.params({
 			filterType = Enum.RaycastFilterType.Include,
 			instances = { workspace.Model },
 		})
