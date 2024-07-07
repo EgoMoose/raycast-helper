@@ -141,7 +141,7 @@ export type RaycastParamOptions = {
 	bruteForceAllSlow: boolean?,
 }
 
-function module.rayParams(options: RaycastParamOptions)
+function module.params(options: RaycastParamOptions)
 	local rayParams = RaycastParams.new()
 	rayParams.FilterDescendantsInstances = options.instances or {}
 	rayParams.FilterType = options.filterType or Enum.RaycastFilterType.Exclude
