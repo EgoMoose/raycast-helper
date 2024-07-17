@@ -56,30 +56,32 @@ local result = RaycastHelper.raycast({
 ## API
 
 ```Luau
+export type FilterCallback = (RaycastResult, () -> ()) -> boolean
+
 type GeneralCastOptions = {
 	worldRoot: WorldRoot?,
 	rayParams: RaycastParams?,
-	filter: ((RaycastResult, () -> ()) -> boolean)?,
+	filter: FilterCallback?,
 }
 
-type RaycastOptions = GeneralCastOptions & {
+export type RaycastOptions = GeneralCastOptions & {
 	origin: Vector3,
 	direction: Vector3,
 }
 
-type BlockcastOptions = GeneralCastOptions & {
+export type BlockcastOptions = GeneralCastOptions & {
 	cframe: CFrame,
 	size: Vector3,
 	direction: Vector3,
 }
 
-type SpherecastOptions = GeneralCastOptions & {
+export type SpherecastOptions = GeneralCastOptions & {
 	position: Vector3,
 	radius: number,
 	direction: Vector3,
 }
 
-type ShapecastOptions = GeneralCastOptions & {
+export type ShapecastOptions = GeneralCastOptions & {
 	part: BasePart,
 	cframe: CFrame?,
 	direction: Vector3,
@@ -90,7 +92,7 @@ function module.blockcast(options: BlockcastOptions): RaycastResult?
 function module.spherecast(options: SpherecastOptions): RaycastResult?
 function module.shapecast(options: ShapecastOptions): RaycastResult?
 
-type RaycastParamOptions = {
+export type RaycastParamOptions = {
 	instances: { Instance }?,
 	filterType: Enum.RaycastFilterType?,
 	ignoreWater: boolean?,

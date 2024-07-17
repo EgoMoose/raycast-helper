@@ -6,12 +6,12 @@ local WORLD_ROOT = workspace :: WorldRoot
 
 -- Internal Types
 
-type RaycastFilterCallback = (RaycastResult, () -> ()) -> boolean
+export type FilterCallback = (RaycastResult, () -> ()) -> boolean
 
 type GeneralCastOptions = {
 	worldRoot: WorldRoot?,
 	rayParams: RaycastParams?,
-	filter: RaycastFilterCallback?,
+	filter: FilterCallback?,
 }
 
 -- Private
@@ -63,7 +63,7 @@ local function createInclusionFilter(inclusionInstances: { Instance })
 	end
 end
 
-local function cast(rayParams: RaycastParams, filter: RaycastFilterCallback?, method: (RaycastParams) -> RaycastResult?)
+local function cast(rayParams: RaycastParams, filter: FilterCallback?, method: (RaycastParams) -> RaycastResult?)
 	if not filter then
 		return method(rayParams)
 	end
