@@ -76,7 +76,7 @@ export type BlockcastOptions = GeneralCastOptions & {
 }
 
 export type SpherecastOptions = GeneralCastOptions & {
-	position: Vector3,
+	origin: Vector3,
 	radius: number,
 	direction: Vector3,
 }

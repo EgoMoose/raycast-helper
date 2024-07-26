@@ -189,21 +189,21 @@ function module.blockcast(options: BlockcastOptions)
 end
 
 export type SpherecastOptions = GeneralCastOptions & {
-	position: Vector3,
+	origin: Vector3,
 	radius: number,
 	direction: Vector3,
 }
 
 function module.spherecast(options: SpherecastOptions)
 	local worldRoot = options.worldRoot or workspace
-	local position = options.position
+	local origin = options.origin
 	local radius = options.radius
 	local direction = options.direction
 	local rayParams = options.rayParams or RaycastParams.new()
 	local filter = options.filter
 
 	return cast(rayParams, filter, function(tmpParams)
-		return WORLD_ROOT.Spherecast(worldRoot, position, radius, direction, tmpParams)
+		return WORLD_ROOT.Spherecast(worldRoot, origin, radius, direction, tmpParams)
 	end)
 end
 
