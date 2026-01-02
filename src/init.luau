@@ -8,7 +8,7 @@ local WORLD_ROOT = workspace :: WorldRoot
 
 export type FilterCallback = (RaycastResult, () -> ()) -> boolean
 
-type GeneralCastOptions = {
+export type GeneralCastOptions = {
 	worldRoot: WorldRoot?,
 	rayParams: RaycastParams?,
 	filter: FilterCallback?,

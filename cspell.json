@@ -1,0 +1,15 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "Blockcast",
+        "cframe",
+        "pcall",
+        "Shapecast",
+        "Spherecast"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
