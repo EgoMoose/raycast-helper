@@ -1,18 +1,8 @@
 --!strict
 
-local module = {}
+local RaycastHelper = {}
 
 local WORLD_ROOT = workspace :: WorldRoot
-
--- Internal Types
-
-export type FilterCallback = (RaycastResult, () -> ()) -> boolean
-
-export type GeneralCastOptions = {
-	worldRoot: WorldRoot?,
-	rayParams: RaycastParams?,
-	filter: FilterCallback?,
-}
 
 -- Private
 
@@ -62,6 +52,8 @@ local function createInclusionFilter(inclusionInstances: { Instance })
 		return nil
 	end
 end
+
+export type FilterCallback = (RaycastResult, () -> ()) -> boolean
 
 local function cast(rayParams: RaycastParams, filter: FilterCallback?, method: (RaycastParams) -> RaycastResult?)
 	if not filter then
@@ -141,7 +133,7 @@ export type RaycastParamOptions = {
 	bruteForceAllSlow: boolean?,
 }
 
-function module.params(options: RaycastParamOptions)
+function RaycastHelper.params(options: RaycastParamOptions)
 	local rayParams = RaycastParams.new()
 	rayParams.FilterDescendantsInstances = options.instances or {}
 	rayParams.FilterType = options.filterType or Enum.RaycastFilterType.Exclude
@@ -152,12 +144,16 @@ function module.params(options: RaycastParamOptions)
 	return rayParams
 end
 
-export type RaycastOptions = GeneralCastOptions & {
+export type RaycastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	origin: Vector3,
 	direction: Vector3,
 }
 
-function module.raycast(options: RaycastOptions)
+function RaycastHelper.raycast(options: RaycastOptions)
 	local worldRoot = options.worldRoot or workspace
 	local origin = options.origin
 	local direction = options.direction
@@ -169,13 +165,17 @@ function module.raycast(options: RaycastOptions)
 	end)
 end
 
-export type BlockcastOptions = GeneralCastOptions & {
+export type BlockcastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	cframe: CFrame,
 	size: Vector3,
 	direction: Vector3,
 }
 
-function module.blockcast(options: BlockcastOptions)
+function RaycastHelper.blockcast(options: BlockcastOptions)
 	local worldRoot = options.worldRoot or workspace
 	local cframe = options.cframe
 	local size = options.size
@@ -188,13 +188,17 @@ function module.blockcast(options: BlockcastOptions)
 	end)
 end
 
-export type SpherecastOptions = GeneralCastOptions & {
+export type SpherecastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	origin: Vector3,
 	radius: number,
 	direction: Vector3,
 }
 
-function module.spherecast(options: SpherecastOptions)
+function RaycastHelper.spherecast(options: SpherecastOptions)
 	local worldRoot = options.worldRoot or workspace
 	local origin = options.origin
 	local radius = options.radius
@@ -207,13 +211,17 @@ function module.spherecast(options: SpherecastOptions)
 	end)
 end
 
-export type ShapecastOptions = GeneralCastOptions & {
+export type ShapecastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	part: BasePart,
 	cframe: CFrame?,
 	direction: Vector3,
 }
 
-function module.shapecast(options: ShapecastOptions)
+function RaycastHelper.shapecast(options: ShapecastOptions)
 	local worldRoot = options.worldRoot or workspace
 	local part = options.part
 	local cframe = options.cframe
@@ -246,4 +254,4 @@ end
 
 --
 
-return module
+return RaycastHelper
