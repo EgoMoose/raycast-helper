@@ -58,39 +58,52 @@ local result = RaycastHelper.raycast({
 ```Luau
 export type FilterCallback = (RaycastResult, () -> ()) -> boolean
 
-type GeneralCastOptions = {
+export type RaycastOptions = {
 	worldRoot: WorldRoot?,
 	rayParams: RaycastParams?,
 	filter: FilterCallback?,
-}
 
-export type RaycastOptions = GeneralCastOptions & {
 	origin: Vector3,
 	direction: Vector3,
 }
 
-export type BlockcastOptions = GeneralCastOptions & {
+function RaycastHelper.raycast(options: RaycastOptions): RaycastResult?
+
+export type BlockcastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	cframe: CFrame,
 	size: Vector3,
 	direction: Vector3,
 }
 
-export type SpherecastOptions = GeneralCastOptions & {
+function RaycastHelper.blockcast(options: BlockcastOptions): RaycastResult?
+
+export type SpherecastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	origin: Vector3,
 	radius: number,
 	direction: Vector3,
 }
 
-export type ShapecastOptions = GeneralCastOptions & {
+function RaycastHelper.spherecast(options: SpherecastOptions): RaycastResult?
+
+export type ShapecastOptions = {
+	worldRoot: WorldRoot?,
+	rayParams: RaycastParams?,
+	filter: FilterCallback?,
+
 	part: BasePart,
 	cframe: CFrame?,
 	direction: Vector3,
 }
 
-function module.raycast(options: RaycastOptions): RaycastResult?
-function module.blockcast(options: BlockcastOptions): RaycastResult?
-function module.spherecast(options: SpherecastOptions): RaycastResult?
-function module.shapecast(options: ShapecastOptions): RaycastResult?
+function RaycastHelper.shapecast(options: ShapecastOptions): RaycastResult?
 
 export type RaycastParamOptions = {
 	instances: { Instance }?,
@@ -101,5 +114,5 @@ export type RaycastParamOptions = {
 	bruteForceAllSlow: boolean?,
 }
 
-function module.params(options: RaycastParamOptions): RaycastParams
+function RaycastHelper.params(options: RaycastParamOptions): RaycastParams
 ```
